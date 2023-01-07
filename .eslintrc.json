@@ -9,6 +9,7 @@
   ],
   "plugins": ["prettier"],
   "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["*.config.*", "next-env.d.ts"],
   "parserOptions": {
     "project": "./tsconfig.json",
     "ecmaVersion": "latest",
@@ -20,10 +21,12 @@
     "prettier/prettier": 1,
     "react/prop-types": "off",
     "no-unused-vars": "off",
+    "react-hooks/exhaustive-deps": "off",
     "@typescript-eslint/no-unused-vars": ["error"],
     "@typescript-eslint/no-unsafe-argument": "off",
     "@typescript-eslint/no-unsafe-call": "warn",
     "@typescript-eslint/no-misused-promises": "off",
-    "@typescript-eslint/no-unsafe-return": "off"
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/no-floating-promises": "off"
   }
 }
