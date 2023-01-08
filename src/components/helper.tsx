@@ -29,25 +29,25 @@ export const bonusItems: ItemsType[] = [
     key: "paper",
     icon: <PaperIcon />,
     bgColor: "bg-[#4d6cf6]",
-    gridPosition: "col-start-1 row-start-2",
+    gridPosition: "col-start-2 row-start-2",
   },
   {
     key: "rock",
     icon: <RockIcon />,
     bgColor: "bg-[#de3957]",
-    gridPosition: "col-start-5 row-start-2",
+    gridPosition: "col-start-4 row-start-2",
   },
   {
     key: "lizard",
     icon: <LizardIcon />,
     bgColor: "bg-[#8955e5]",
-    gridPosition: "col-start-1 row-start-3",
+    gridPosition: "col-start-2 row-start-3",
   },
   {
     key: "spock",
     icon: <SpockIcon />,
     bgColor: "bg-[#45b8ce]",
-    gridPosition: "col-start-5 row-start-3",
+    gridPosition: "col-start-4 row-start-3",
   },
 ];
 
@@ -68,7 +68,7 @@ export const originItems: ItemsType[] = [
     key: "rock",
     icon: <RockIcon />,
     bgColor: "bg-[#de3957]",
-    gridPosition: "col-start-3 row-start-2",
+    gridPosition: "col-start-3 row-start-3",
   },
 ];
 

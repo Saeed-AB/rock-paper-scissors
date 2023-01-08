@@ -7,7 +7,7 @@ import {
   beatItems,
 } from "./helper";
 import Avatar from "./Avatar";
-import { useRouter } from "next/router";
+import clsx from "clsx";
 
 const itemsList: { original: ItemsType[]; bonus: ItemsType[] } = {
   original: originItems,
@@ -20,9 +20,16 @@ const labels: { human: string; house: string; equal: string } = {
   equal: "EQUAL",
 };
 
-const GameRender = ({ type }: { type: "original" | "bonus" }) => {
+const GameRender = ({
+  type,
+  score,
+  setScore,
+}: {
+  type: "original" | "bonus";
+  score: number;
+  setScore: (sc: number) => void;
+}) => {
   const items = itemsList[type];
-  const router = useRouter();
 
   const [winner, setWinner] = React.useState<
     "human" | "house" | "equal" | null
@@ -43,9 +50,10 @@ const GameRender = ({ type }: { type: "original" | "bonus" }) => {
       const isEqual = house === human;
 
       if (isHumanWinner) {
-        const score = router.query.score || 0;
-        const newScore = +score + 1;
-        router.push(`?score=${newScore}`);
+        const newScore = score + 1;
+        setScore(newScore);
+        window.localStorage.setItem(`${type}_score`, newScore.toString());
+
         setWinner("human");
       }
 
@@ -140,7 +148,14 @@ const GameRender = ({ type }: { type: "original" | "bonus" }) => {
   }
 
   return (
-    <div className="grid grid-cols-5 w-1/2 gap-5">
+    <div
+      className={clsx(
+        "grid grid-cols-5 justify-center bg-center gap-5 bg-no-repeat",
+        type === "original"
+          ? "bg-[url('../images/bg-triangle.svg')]"
+          : "bg-[url('../images/bg-pentagon.svg')]"
+      )}
+    >
       {items.map((item) => {
         return (
           <div

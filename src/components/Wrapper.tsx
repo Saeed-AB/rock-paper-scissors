@@ -1,8 +1,8 @@
 import { Modal } from "@/components";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import GameRender from "./GameRender";
+import CloseIcon from "../images/icon-close.svg";
 
 type WrapperTypes = {
   type: "original" | "bonus";
@@ -19,16 +19,30 @@ const linkRef = {
 
 const Wrapper: FC<WrapperTypes> = ({ type }) => {
   const ruleImage = ruleImages[type];
-  const router = useRouter();
+  const [score, setScore] = useState<number>(0);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleOpenModal = () => {
+  function handleOpenModal() {
     setIsOpen(true);
-  };
+  }
 
-  const handleCloseModal = () => {
+  function handleCloseModal() {
     setIsOpen(false);
-  };
+  }
+
+  function resetGame() {
+    setScore(0);
+    window.localStorage.setItem(`${type}_score`, "0");
+  }
+
+  function getInitialScore() {
+    const initScore = window.localStorage.getItem(`${type}_score`) || 0;
+    setScore(+initScore);
+  }
+
+  React.useEffect(() => {
+    getInitialScore();
+  });
 
   return (
     <div className=" flex flex-col p-6 justify-between items-center w-full h-screen min-w-[375px]">
@@ -56,22 +70,26 @@ const Wrapper: FC<WrapperTypes> = ({ type }) => {
             SCORE
           </h6>
           <p className="leading-none font-extrabold text-[28px] text-[#555264] md:text-[54px]">
-            {router.query.score || 0}
+            {score}
           </p>
         </div>
       </div>
 
-      <GameRender type={type} />
+      <GameRender type={type} score={score} setScore={setScore} />
 
       {/* Footer */}
-      <div className="flex justify-between items-center w-full">
-        <Link href={linkRef[type]} className="btn-primary uppercase">
-          {/* <button className="btn-primary uppercase" onClick={handleRoute}> */}
+      <div className="flex gap-4 flex-col justify-center md:flex-row">
+        <Link
+          href={linkRef[type]}
+          className="btn-primary uppercase text-center"
+        >
           {type === "bonus" ? "original" : "bonus"}
-          {/* </button> */}
         </Link>
         <button className="btn-primary" onClick={handleOpenModal}>
           RULES
+        </button>
+        <button className="btn-primary" onClick={resetGame}>
+          RESET
         </button>
       </div>
 
@@ -81,7 +99,10 @@ const Wrapper: FC<WrapperTypes> = ({ type }) => {
             type === "original" ? "w-[304px]" : "w-[340px]"
           }`}
         >
-          <h1 className="text-[#54596f] text-3xl font-extrabold">RULES</h1>
+          <div className="flex justify-between">
+            <h1 className="text-[#54596f] text-3xl font-extrabold">RULES</h1>
+            <CloseIcon className="cursor-pointer" onClick={handleCloseModal} />
+          </div>
           <div
             className={`relative w-full ${
               type === "original" ? "h-[270px]" : "h-[330px]"
